@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:mirror_wall/web_view/providers/web_provider.dart';
 import 'package:provider/provider.dart';
 
-class BookMarks extends StatelessWidget {
-  const BookMarks({super.key});
+import '../../web_view/providers/web_provider.dart';
+
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class BookMarks extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "  Bookmarks",
+                "  History",
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
               IconButton(
@@ -37,37 +38,39 @@ class BookMarks extends StatelessWidget {
             ],
           ),
           ListView.builder(
-            reverse: true,
             shrinkWrap: true,
-            itemCount: providerTrue.bookmarks.length,
+            reverse: true,
+            itemCount: providerTrue.history.length,
             itemBuilder: (context, index) => ListTile(
-              contentPadding: EdgeInsets.only(right: 0, left: 20),
+              contentPadding: EdgeInsets.only(
+                right: 0,
+                left: 20,
+              ),
               leading: Image.asset(
-                "assets/images/world-wide-web.png",
-                height: 30,
-                color: Colors.white,
+                providerTrue.history[index].image.toString(),
+                height: 20,
               ),
               onTap: () {
                 Navigator.pop(context);
 
                 providerFalse.webViewController!.loadUrl(
                     urlRequest: URLRequest(
-                        url: WebUri(providerFalse.bookmarks[index].bookMark
-                            .toString())));
+                        url: WebUri(
+                            providerFalse.history[index].history.toString())));
               },
               title: Text(
-                providerTrue.bookmarks[index].title.toString(),
+                providerTrue.history[index].title.toString(),
                 style: TextStyle(color: Colors.white),
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
-                providerTrue.bookmarks[index].bookMark.toString(),
+                providerTrue.history[index].history.toString(),
                 style: TextStyle(color: Colors.white),
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: IconButton(
                 onPressed: () {
-                  providerFalse.removeBookmark(index);
+                  providerFalse.removeHistory(index);
                 },
                 icon: Icon(
                   Icons.cancel_outlined,

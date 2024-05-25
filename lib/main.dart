@@ -5,6 +5,8 @@ import 'package:mirror_wall/web_view/providers/web_provider.dart';
 import 'package:mirror_wall/web_view/view/web_view_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'history/view/history_screen.dart';
+
 void main() {
   runApp(MirrorWall());
 }
@@ -26,6 +28,7 @@ class MirrorWall extends StatelessWidget {
         routes: {
           '/home': (context) => WebViewScreen(),
           '/bookmark': (context) => BookMarks(),
+          '/history': (context) => HistoryScreen(),
         },
       ),
     );

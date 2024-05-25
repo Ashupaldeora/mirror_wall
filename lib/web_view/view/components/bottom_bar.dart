@@ -16,8 +16,9 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      decoration:
-          BoxDecoration(border: Border(top: BorderSide(color: Colors.grey))),
+      decoration: BoxDecoration(
+          color: Color(0xff121212),
+          border: Border(top: BorderSide(color: Colors.grey))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -32,19 +33,38 @@ class BottomBar extends StatelessWidget {
                       }
                     }
                   : null,
-              icon: Icon(Icons.arrow_back_ios)),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              )),
           IconButton(
               onPressed: () {
                 providerFalse.webViewController?.goForward();
               },
-              icon: Icon(Icons.arrow_forward_ios)),
+              icon: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white,
+              )),
           IconButton(
               onPressed: () {
                 providerFalse.webViewController?.reload();
               },
-              icon: Icon(Icons.refresh)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.looks_one_outlined)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.looks_one_outlined,
+                color: Colors.white,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white,
+              )),
         ],
       ),
     );

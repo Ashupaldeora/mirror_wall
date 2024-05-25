@@ -11,7 +11,11 @@ class SearchEngineDialog extends StatelessWidget {
     final providerFalse = Provider.of<WebProvider>(context, listen: false);
     final providerTrue = Provider.of<WebProvider>(context, listen: true);
     return AlertDialog(
-      title: Text("Choose Search Engine"),
+      backgroundColor: Color(0xff332940),
+      title: Text(
+        "Choose Search Engine",
+        style: TextStyle(color: Colors.white),
+      ),
       content: Container(
         height: 240,
         width: 400,
@@ -21,7 +25,11 @@ class SearchEngineDialog extends StatelessWidget {
               itemCount: 4,
               shrinkWrap: true,
               itemBuilder: (context, index) => RadioListTile(
-                title: Text(providerTrue.searchEngineNames[index]),
+                activeColor: Colors.white,
+                title: Text(
+                  providerTrue.searchEngineNames[index],
+                  style: TextStyle(color: Colors.white),
+                ),
                 value: providerTrue.searchEngineNames[index],
                 groupValue: providerTrue.groupValue,
                 onChanged: (value) {
