@@ -11,7 +11,9 @@ AppBar WebViewAppBar(
     backgroundColor: Color(0xff121212),
     toolbarHeight: 90,
     leading: IconButton(
-      onPressed: () {},
+      onPressed: () {
+        providerFalse.goHome();
+      },
       icon: Icon(
         Icons.home_outlined,
         color: Colors.white,

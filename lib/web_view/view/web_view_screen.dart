@@ -35,6 +35,10 @@ class WebViewScreen extends StatelessWidget {
 
               providerFalse.pullToRefreshController!.endRefreshing();
             },
+            onTitleChanged: (controller, title) async {
+              await providerFalse.updateHistory(
+                  controller.getUrl(), title.toString());
+            },
             pullToRefreshController: providerTrue.pullToRefreshController,
           ),
           if (providerTrue.progress < 1)

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +11,7 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
     final providerTrue = Provider.of<WebProvider>(context);
     final providerFalse = Provider.of<WebProvider>(context, listen: false);
     return Scaffold(
@@ -37,44 +40,62 @@ class HistoryScreen extends StatelessWidget {
                   ))
             ],
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            reverse: true,
-            itemCount: providerTrue.history.length,
-            itemBuilder: (context, index) => ListTile(
-              contentPadding: EdgeInsets.only(
-                right: 0,
-                left: 20,
-              ),
-              leading: Image.asset(
-                providerTrue.history[index].image.toString(),
-                height: 20,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-
-                providerFalse.webViewController!.loadUrl(
-                    urlRequest: URLRequest(
-                        url: WebUri(
-                            providerFalse.history[index].history.toString())));
+          TextButton(
+              onPressed: () {
+                providerFalse.clearWholeHistory();
               },
-              title: Text(
-                providerTrue.history[index].title.toString(),
-                style: TextStyle(color: Colors.white),
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text(
-                providerTrue.history[index].history.toString(),
-                style: TextStyle(color: Colors.white),
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: IconButton(
-                onPressed: () {
-                  providerFalse.removeHistory(index);
+              child: Text("clear browsing data")),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              // reverse: true,
+              itemCount: providerTrue.history.length,
+              itemBuilder: (context, index) => ListTile(
+                contentPadding: EdgeInsets.only(
+                  right: 0,
+                  left: 20,
+                ),
+                leading: Image.asset(
+                  providerTrue
+                      .history[providerTrue.history.length - (index + 1)].image
+                      .toString(),
+                  height: 20,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+
+                  providerFalse.webViewController!.loadUrl(
+                      urlRequest: URLRequest(
+                          url: WebUri(providerFalse
+                              .history[
+                                  providerTrue.history.length - (index + 1)]
+                              .history
+                              .toString())));
                 },
-                icon: Icon(
-                  Icons.cancel_outlined,
-                  color: Colors.white,
+                title: Text(
+                  providerTrue
+                      .history[providerTrue.history.length - (index + 1)].title
+                      .toString(),
+                  style: TextStyle(color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  providerTrue
+                      .history[providerTrue.history.length - (index + 1)]
+                      .history
+                      .toString(),
+                  style: TextStyle(color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    providerFalse.removeHistory(
+                        providerTrue.history.length - (index + 1));
+                  },
+                  icon: Icon(
+                    Icons.cancel_outlined,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

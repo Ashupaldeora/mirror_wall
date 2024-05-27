@@ -10,6 +10,7 @@ class WebProvider extends ChangeNotifier {
   TextEditingController textEditingController = TextEditingController();
   double progress = 0;
   String searchedText = '';
+  WebUri? historyUrl;
   String? title;
   List<BookmarkModel> bookmarks = [];
   List<HistoryData> history = [];
@@ -28,16 +29,22 @@ class WebProvider extends ChangeNotifier {
   Future<void> updateSearchedUrl(WebUri? url, Future<String?> title) async {
     searchedUrl = url.toString();
     this.title = await title;
+
+    checkIfShouldGoBack();
+    notifyListeners();
+  }
+
+  Future<void> updateHistory(Future<WebUri?> url, String title) async {
+    historyUrl = await url;
     if (searchedUrl == "https://www.google.com/" ||
         searchedUrl == "https://in.search.yahoo.com/" ||
         searchedUrl == "https://www.bing.com/" ||
         searchedUrl == "https://duckduckgo.com/") {
     } else {
       history.add(HistoryData(
-          title: this.title, history: searchedUrl, image: mainLogoImage));
+          title: title, history: historyUrl.toString(), image: mainLogoImage));
     }
 
-    checkIfShouldGoBack();
     notifyListeners();
   }
 
@@ -57,6 +64,7 @@ class WebProvider extends ChangeNotifier {
 
   void updateSearchEngine(String value) {
     selectedSearchEngine = value;
+    textEditingController.clear();
     if (selectedSearchEngine == 'Google') {
       mainLogoImage = google;
       webViewController!.loadUrl(
@@ -77,8 +85,30 @@ class WebProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearWholeHistory() {
+    history.clear();
+    notifyListeners();
+  }
+
   void updateSearchEngineGroupValue(String value) {
     groupValue = value;
+    notifyListeners();
+  }
+
+  void goHome() {
+    if (selectedSearchEngine == 'Google') {
+      webViewController!.loadUrl(
+          urlRequest: URLRequest(url: WebUri("https://www.google.com/")));
+    } else if (selectedSearchEngine == 'Yahoo') {
+      webViewController!.loadUrl(
+          urlRequest: URLRequest(url: WebUri("https://in.search.yahoo.com/")));
+    } else if (selectedSearchEngine == 'Bing') {
+      webViewController!.loadUrl(
+          urlRequest: URLRequest(url: WebUri("https://www.bing.com/")));
+    } else if (selectedSearchEngine == 'Duck Duck Go') {
+      webViewController!.loadUrl(
+          urlRequest: URLRequest(url: WebUri("https://duckduckgo.com/")));
+    }
     notifyListeners();
   }
 
